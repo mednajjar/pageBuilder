@@ -7,7 +7,7 @@ import Link from 'next/link'
 export default function VerifyEmail() {
   const router = useRouter()
   const searchParams = useSearchParams()
-  const email = searchParams.get('email')
+  const email = searchParams?.get('email') ?? null
   
   const [verificationCode, setVerificationCode] = useState(['', '', '', '', '', ''])
   const [error, setError] = useState<string | null>(null)
@@ -44,7 +44,7 @@ export default function VerifyEmail() {
   }
 
   const handleResendCode = async () => {
-    if (timeLeft > 0) return
+    if (timeLeft > 0 || !email) return
     
     setLoading(true)
     try {
@@ -69,6 +69,8 @@ export default function VerifyEmail() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+    if (!email) return
+
     setError(null)
     setLoading(true)
 
