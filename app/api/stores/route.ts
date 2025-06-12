@@ -24,6 +24,9 @@ export async function POST(req: Request) {
     const body = await req.json()
     const { storeName, language, currency } = storeSchema.parse(body)
 
+    // Generate a unique subdomain from the store name
+    const subdomain = storeName.toLowerCase().replace(/[^a-z0-9-]/g, '-')
+
     // Check if store name is already taken
     const existingStore = await prisma.store.findUnique({
       where: { name: storeName }
@@ -32,6 +35,18 @@ export async function POST(req: Request) {
     if (existingStore) {
       return NextResponse.json(
         { error: 'Store name is already taken' },
+        { status: 400 }
+      )
+    }
+
+    // Check if subdomain is already taken
+    const existingSubdomain = await prisma.store.findUnique({
+      where: { subdomain }
+    })
+
+    if (existingSubdomain) {
+      return NextResponse.json(
+        { error: 'Subdomain is already taken' },
         { status: 400 }
       )
     }
@@ -52,6 +67,7 @@ export async function POST(req: Request) {
     const store = await prisma.store.create({
       data: {
         name: storeName,
+        subdomain,
         userId: session.user.id,
         language,
         currency,
@@ -67,6 +83,7 @@ export async function POST(req: Request) {
       )
     }
 
+    console.error('Store creation error:', error instanceof Error ? error.message : 'Unknown error')
     return NextResponse.json(
       { error: 'Something went wrong' },
       { status: 500 }
