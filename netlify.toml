@@ -7,7 +7,7 @@
   NODE_ENV = "production"
   NEXT_TELEMETRY_DISABLED = "1"
   NEXT_RUNTIME = "edge"
-  DATABASE_URL = "postgresql://postgres.apajywoblfchirlzwzpc:Alabasta007@aws-0-eu-west-3.pooler.supabase.com:6543/postgres?pgbouncer=true"
+  DATABASE_URL = "postgresql://postgres.apajywoblfchirlzwzpc:Alabasta007@aws-0-eu-west-3.pooler.supabase.com:6543/postgres?pgbouncer=true&connection_limit=5&pool_timeout=10&idle_timeout=30"
   PGBOUNCER_MAX_CLIENT_CONN = "100"
   PGBOUNCER_DEFAULT_POOL_SIZE = "20"
   PGBOUNCER_MIN_POOL_SIZE = "5"
@@ -36,4 +36,4 @@
 [functions.environment]
   NEXT_TELEMETRY_DISABLED = "1"
   NODE_ENV = "production"
-  DATABASE_URL = "postgresql://postgres.apajywoblfchirlzwzpc:Alabasta007@aws-0-eu-west-3.pooler.supabase.com:6543/postgres?pgbouncer=true" 
+  DATABASE_URL = "postgresql://postgres.apajywoblfchirlzwzpc:Alabasta007@aws-0-eu-west-3.pooler.supabase.com:6543/postgres?pgbouncer=true&connection_limit=5&pool_timeout=10&idle_timeout=30" 

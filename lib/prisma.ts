@@ -10,20 +10,7 @@ export const prisma = globalForPrisma.prisma ?? new PrismaClient({
       url: process.env.DATABASE_URL
     }
   },
-  // Add connection pooling configuration
-  log: ['error', 'warn'],
-  // Configure connection pooling
-  connectionLimit: 5,
-  // Add pgbouncer configuration
-  __internal: {
-    engine: {
-      connectionTimeout: 10000,
-      poolTimeout: 10000,
-      maxConnections: 10,
-      minConnections: 2,
-      idleTimeout: 30000,
-    }
-  }
+  log: ['error', 'warn']
 })
 
 if (process.env.NODE_ENV !== 'production') globalForPrisma.prisma = prisma 
