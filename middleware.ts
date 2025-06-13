@@ -26,6 +26,11 @@ export async function middleware(request: NextRequest) {
 
   // Check if user is authenticated
   if (!token) {
+    // If we're already on the signin page, don't redirect
+    if (pathname === '/auth/signin') {
+      return NextResponse.next()
+    }
+    
     const url = new URL('/auth/signin', request.url)
     url.searchParams.set('callbackUrl', encodeURI(request.url))
     return NextResponse.redirect(url)

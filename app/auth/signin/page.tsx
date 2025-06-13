@@ -2,7 +2,7 @@
 
 import { useState, Suspense } from 'react'
 import { signIn } from 'next-auth/react'
-import { useRouter } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import dynamic from 'next/dynamic'
 import Link from 'next/link'
 import { getAuthRedirect } from '@/lib/auth-redirect'
@@ -15,6 +15,7 @@ const LoadingSpinner = dynamic(() => import('@/components/ui/LoadingSpinner'), {
 
 export default function SignIn() {
   const router = useRouter()
+  const searchParams = useSearchParams()
   const [error, setError] = useState<string | null>(null)
   const [loading, setLoading] = useState(false)
   const [showPassword, setShowPassword] = useState(false)
@@ -48,9 +49,15 @@ export default function SignIn() {
         return
       }
 
-      // Get the appropriate redirect path based on user status
-      const redirectPath = await getAuthRedirect()
-      router.push(redirectPath)
+      // Get the callback URL from search params or use the default redirect
+      const callbackUrl = searchParams?.get('callbackUrl')
+      if (callbackUrl) {
+        router.push(callbackUrl)
+      } else {
+        // Get the appropriate redirect path based on user status
+        const redirectPath = await getAuthRedirect()
+        router.push(redirectPath)
+      }
       router.refresh()
     } catch (err) {
       setError('An error occurred during sign in')
