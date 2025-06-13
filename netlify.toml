@@ -1,5 +1,5 @@
 [build]
-  command = "npm install --legacy-peer-deps && npm install prisma && npm install autoprefixer && npx prisma generate && npm run build"
+  command = "npm install --legacy-peer-deps && npm install prisma && npm install autoprefixer && npm install tailwindcss && npx prisma generate && npm run build"
   publish = ".next"
 
 [build.environment]
