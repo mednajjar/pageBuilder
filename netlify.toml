@@ -1,19 +1,33 @@
 [build]
-  command = "npm install --legacy-peer-deps && npm install prisma && npm install autoprefixer && npx prisma generate && npm run build"
+  command = "npm install --legacy-peer-deps && npm install --save-dev typescript && npx prisma generate && npm run build"
   publish = ".next"
 
 [build.environment]
   NODE_VERSION = "18.18.2"
   NODE_ENV = "production"
   NEXT_TELEMETRY_DISABLED = "1"
+  NEXT_RUNTIME = "edge"
 
 [[plugins]]
   package = "@netlify/plugin-nextjs"
 
 [[redirects]]
+  from = "/api/test-db"
+  to = "/.netlify/functions/test-db"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/api/*"
+  to = "/.netlify/functions/:splat"
+  status = 200
+  force = true
+
+[[redirects]]
   from = "/*"
   to = "/index.html"
   status = 200
+  force = true
 
 [functions]
   external_node_modules = ["@prisma/client"]

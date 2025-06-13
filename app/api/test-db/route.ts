@@ -1,22 +1,27 @@
 import { NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 
+export const dynamic = 'force-dynamic'
+
 export async function GET() {
   try {
-    // Try to connect to the database and perform a simple query
-    await prisma.$queryRaw`SELECT 1`
+    // Test database connection by making a simple query
+    const result = await prisma.$queryRaw`SELECT 1 as test`
     
     return NextResponse.json({
       status: 'success',
       message: 'Database connection successful',
-      timestamp: new Date().toISOString()
+      data: result
     })
   } catch (error) {
-    console.error('Database connection error:', error)
-    return NextResponse.json({
-      status: 'error',
-      message: 'Failed to connect to database',
-      error: error instanceof Error ? error.message : 'Unknown error'
-    }, { status: 500 })
+    console.error('Database connection test failed:', error)
+    return NextResponse.json(
+      {
+        status: 'error',
+        message: 'Database connection failed',
+        error: error instanceof Error ? error.message : 'Unknown error'
+      },
+      { status: 500 }
+    )
   }
 } 
