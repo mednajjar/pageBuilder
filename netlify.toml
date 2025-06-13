@@ -32,8 +32,8 @@
 [functions]
   external_node_modules = ["@prisma/client"]
   node_bundler = "esbuild"
-  environment = { 
-    NEXT_TELEMETRY_DISABLED = "1", 
-    NODE_ENV = "production",
-    DATABASE_URL = "postgresql://postgres.apajywoblfchirlzwzpc:Alabasta007@aws-0-eu-west-3.pooler.supabase.com:6543/postgres?pgbouncer=true"
-  } 
+
+[functions.environment]
+  NEXT_TELEMETRY_DISABLED = "1"
+  NODE_ENV = "production"
+  DATABASE_URL = "postgresql://postgres.apajywoblfchirlzwzpc:Alabasta007@aws-0-eu-west-3.pooler.supabase.com:6543/postgres?pgbouncer=true" 
