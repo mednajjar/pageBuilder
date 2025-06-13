@@ -7,14 +7,7 @@ const prismaClientSingleton = () => {
         url: process.env.DATABASE_URL,
       },
     },
-    // Add connection timeout and retry logic
     log: ['error', 'warn'],
-    // Configure connection pool
-    connectionLimit: 5,
-    // Add SSL configuration
-    ssl: {
-      rejectUnauthorized: false,
-    },
   })
 }
 
