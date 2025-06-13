@@ -4,52 +4,10 @@ const nextConfig = {
   images: {
     unoptimized: true,
   },
-  // Configure which pages should be static
-  generateStaticParams: async () => {
-    return {
-      '/': {},
-      '/auth/login': {},
-      '/auth/register': {},
-      '/auth/verify': {},
-      '/dashboard': {},
-      '/dashboard/settings': {},
-      '/dashboard/stores': {},
-      '/dashboard/stores/[id]': {},
-      '/dashboard/stores/[id]/edit': {},
-      '/dashboard/stores/[id]/preview': {},
-      '/dashboard/stores/[id]/settings': {},
-      '/dashboard/stores/[id]/analytics': {},
-      '/dashboard/stores/[id]/orders': {},
-      '/dashboard/stores/[id]/products': {},
-      '/dashboard/stores/[id]/products/[productId]': {},
-      '/dashboard/stores/[id]/products/[productId]/edit': {},
-      '/dashboard/stores/[id]/products/[productId]/preview': {},
-      '/dashboard/stores/[id]/products/[productId]/analytics': {},
-      '/dashboard/stores/[id]/products/[productId]/orders': {},
-      '/dashboard/stores/[id]/products/[productId]/settings': {},
-      '/dashboard/stores/[id]/products/[productId]/variants': {},
-      '/dashboard/stores/[id]/products/[productId]/variants/[variantId]': {},
-      '/dashboard/stores/[id]/products/[productId]/variants/[variantId]/edit': {},
-      '/dashboard/stores/[id]/products/[productId]/variants/[variantId]/preview': {},
-      '/dashboard/stores/[id]/products/[productId]/variants/[variantId]/analytics': {},
-      '/dashboard/stores/[id]/products/[productId]/variants/[variantId]/orders': {},
-      '/dashboard/stores/[id]/products/[productId]/variants/[variantId]/settings': {},
-      '/dashboard/stores/[id]/products/[productId]/variants/[variantId]/inventory': {},
-      '/dashboard/stores/[id]/products/[productId]/variants/[variantId]/inventory/[inventoryId]': {},
-      '/dashboard/stores/[id]/products/[productId]/variants/[variantId]/inventory/[inventoryId]/edit': {},
-      '/dashboard/stores/[id]/products/[productId]/variants/[variantId]/inventory/[inventoryId]/preview': {},
-      '/dashboard/stores/[id]/products/[productId]/variants/[variantId]/inventory/[inventoryId]/analytics': {},
-      '/dashboard/stores/[id]/products/[productId]/variants/[variantId]/inventory/[inventoryId]/orders': {},
-      '/dashboard/stores/[id]/products/[productId]/variants/[variantId]/inventory/[inventoryId]/settings': {},
-      '/dashboard/stores/[id]/products/[productId]/variants/[variantId]/inventory/[inventoryId]/inventory': {},
-      '/dashboard/stores/[id]/products/[productId]/variants/[variantId]/inventory/[inventoryId]/inventory/[inventoryId]': {},
-      '/dashboard/stores/[id]/products/[productId]/variants/[variantId]/inventory/[inventoryId]/inventory/[inventoryId]/edit': {},
-      '/dashboard/stores/[id]/products/[productId]/variants/[variantId]/inventory/[inventoryId]/inventory/[inventoryId]/preview': {},
-      '/dashboard/stores/[id]/products/[productId]/variants/[variantId]/inventory/[inventoryId]/inventory/[inventoryId]/analytics': {},
-      '/dashboard/stores/[id]/products/[productId]/variants/[variantId]/inventory/[inventoryId]/inventory/[inventoryId]/orders': {},
-      '/dashboard/stores/[id]/products/[productId]/variants/[variantId]/inventory/[inventoryId]/inventory/[inventoryId]/settings': {},
-    }
-  },
+  // Configure static paths
+  trailingSlash: true,
+  // Disable static optimization for dynamic routes
+  staticPageGenerationTimeout: 120,
 }
 
 module.exports = nextConfig 
