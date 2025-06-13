@@ -1,10 +1,11 @@
 [build]
   command = "npm install && npx prisma generate && npm run build"
   publish = ".next"
+  environment = { NODE_VERSION = "18.17.0" }
 
 [build.environment]
-  NEXT_PUBLIC_URL = "https://your-site-name.netlify.app"
-  NODE_VERSION = "18"
+  NEXT_TELEMETRY_DISABLED = "1"
+  NODE_ENV = "production"
 
 [[plugins]]
   package = "@netlify/plugin-nextjs"
@@ -12,4 +13,12 @@
 [[redirects]]
   from = "/*"
   to = "/index.html"
-  status = 200 
+  status = 200
+
+[functions]
+  node_bundler = "esbuild"
+  external_node_modules = ["@prisma/client"]
+
+[functions.environment]
+  NODE_ENV = "production"
+  NEXT_TELEMETRY_DISABLED = "1" 
