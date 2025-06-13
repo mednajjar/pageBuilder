@@ -1,10 +1,10 @@
 [build]
-  command = "npm install && npx prisma generate && npm run build"
+  command = "npm install --legacy-peer-deps && npx prisma generate && npm run build"
   publish = ".next"
+  environment = { NEXT_TELEMETRY_DISABLED = "1" }
 
 [build.environment]
-  NODE_VERSION = "18.18.0"
-  NEXT_TELEMETRY_DISABLED = "1"
+  NODE_VERSION = "18.17.0"
   NODE_ENV = "production"
 
 [[plugins]]
@@ -16,9 +16,6 @@
   status = 200
 
 [functions]
-  node_bundler = "esbuild"
   external_node_modules = ["@prisma/client"]
-
-[functions.environment]
-  NODE_ENV = "production"
-  NEXT_TELEMETRY_DISABLED = "1" 
+  node_bundler = "esbuild"
+  environment = { NEXT_TELEMETRY_DISABLED = "1", NODE_ENV = "production" } 
