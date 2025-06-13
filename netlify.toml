@@ -6,16 +6,34 @@
   NODE_VERSION = "18.18.2"
   NODE_ENV = "production"
   NEXT_TELEMETRY_DISABLED = "1"
+  NEXT_RUNTIME = "edge"
+  DATABASE_URL = "postgresql://postgres.apajywoblfchirlzwzpc:Alabasta007@aws-0-eu-west-3.pooler.supabase.com:6543/postgres?pgbouncer=true"
+  PGBOUNCER_MAX_CLIENT_CONN = "100"
+  PGBOUNCER_DEFAULT_POOL_SIZE = "20"
+  PGBOUNCER_MIN_POOL_SIZE = "5"
+  PGBOUNCER_RESERVE_POOL_SIZE = "10"
+  PGBOUNCER_RESERVE_POOL_TIMEOUT = "5"
 
 [[plugins]]
   package = "@netlify/plugin-nextjs"
 
 [[redirects]]
+  from = "/api/*"
+  to = "/.netlify/functions/:splat"
+  status = 200
+  force = true
+
+[[redirects]]
   from = "/*"
   to = "/index.html"
   status = 200
+  force = true
 
 [functions]
   external_node_modules = ["@prisma/client"]
   node_bundler = "esbuild"
-  environment = { NEXT_TELEMETRY_DISABLED = "1", NODE_ENV = "production" } 
+  environment = { 
+    NEXT_TELEMETRY_DISABLED = "1", 
+    NODE_ENV = "production",
+    DATABASE_URL = "postgresql://postgres.apajywoblfchirlzwzpc:Alabasta007@aws-0-eu-west-3.pooler.supabase.com:6543/postgres?pgbouncer=true"
+  } 
