@@ -4,7 +4,7 @@ import { useEffect, useState, Suspense } from 'react'
 import { useSearchParams } from 'next/navigation'
 import { useRouter } from 'next/navigation'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { Button } from '@/components/ui/button'
+import { Button } from '@/components/ui/Button'
 import { Loader2 } from 'lucide-react'
 
 function VerifyContent() {
@@ -16,8 +16,8 @@ function VerifyContent() {
   useEffect(() => {
     const verifyEmail = async () => {
       try {
-        const email = searchParams.get('email')
-        const token = searchParams.get('token')
+        const email = searchParams?.get('email')
+        const token = searchParams?.get('token')
 
         if (!email || !token) {
           setVerificationStatus('error')
