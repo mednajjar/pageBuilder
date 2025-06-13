@@ -11,9 +11,16 @@
   package = "@netlify/plugin-nextjs"
 
 [[redirects]]
+  from = "/api/*"
+  to = "/.netlify/functions/:splat"
+  status = 200
+  force = true
+
+[[redirects]]
   from = "/*"
   to = "/index.html"
   status = 200
+  force = true
 
 [functions]
   external_node_modules = ["@prisma/client"]
