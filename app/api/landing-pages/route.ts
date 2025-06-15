@@ -77,25 +77,85 @@ export async function POST(request: Request) {
 }
 
 export async function PUT(request: Request) {
-  const body = await request.json()
-  const index = pages.findIndex(page => page.id === body.id)
-  if (index === -1) {
-    return NextResponse.json({ error: 'Page not found' }, { status: 404 })
+  try {
+    const session = await getServerSession(authOptions)
+    if (!session?.user?.id) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    }
+
+    const body = await request.json()
+    
+    // Get user's store
+    const user = await prisma.user.findUnique({
+      where: { id: session.user.id },
+      include: { store: true }
+    })
+
+    if (!user?.store) {
+      return NextResponse.json({ error: 'Store not found' }, { status: 404 })
+    }
+
+    // Update the page in the database
+    const updatedPage = await prisma.page.update({
+      where: {
+        id: body.id,
+        storeId: user.store.id // Ensure the page belongs to the user's store
+      },
+      data: {
+        title: body.title,
+        name: body.name,
+        content: body.content,
+        published: body.published
+      }
+    })
+
+    return NextResponse.json(updatedPage)
+  } catch (error) {
+    console.error('Error updating page:', error)
+    return NextResponse.json(
+      { error: 'Failed to update page' },
+      { status: 500 }
+    )
   }
-  pages[index] = body
-  return NextResponse.json(body)
 }
 
 export async function DELETE(request: Request) {
-  const { searchParams } = new URL(request.url)
-  const id = searchParams.get('id')
-  if (!id) {
-    return NextResponse.json({ error: 'ID is required' }, { status: 400 })
+  try {
+    const session = await getServerSession(authOptions)
+    if (!session?.user?.id) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    }
+
+    const { searchParams } = new URL(request.url)
+    const id = searchParams.get('id')
+    if (!id) {
+      return NextResponse.json({ error: 'ID is required' }, { status: 400 })
+    }
+
+    // Get user's store
+    const user = await prisma.user.findUnique({
+      where: { id: session.user.id },
+      include: { store: true }
+    })
+
+    if (!user?.store) {
+      return NextResponse.json({ error: 'Store not found' }, { status: 404 })
+    }
+
+    // Delete the page from the database
+    await prisma.page.delete({
+      where: {
+        id: id,
+        storeId: user.store.id // Ensure the page belongs to the user's store
+      }
+    })
+
+    return NextResponse.json({ success: true })
+  } catch (error) {
+    console.error('Error deleting page:', error)
+    return NextResponse.json(
+      { error: 'Failed to delete page' },
+      { status: 500 }
+    )
   }
-  const index = pages.findIndex(p => p.id === id)
-  if (index === -1) {
-    return NextResponse.json({ error: 'Page not found' }, { status: 404 })
-  }
-  pages.splice(index, 1)
-  return NextResponse.json({ success: true })
 } 
