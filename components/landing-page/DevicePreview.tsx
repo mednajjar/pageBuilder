@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { Children, cloneElement, isValidElement } from 'react'
+import { Children, cloneElement, isValidElement, ReactElement } from 'react'
 import { setUserAgent } from 'react-device-detect'
 
 interface DevicePreviewProps {
@@ -7,6 +7,11 @@ interface DevicePreviewProps {
 }
 
 type DeviceSize = 'mobile' | 'tablet' | 'desktop'
+
+interface PreviewProps {
+  previewDevice?: DeviceSize
+  isPreview?: boolean
+}
 
 const deviceSizes = {
   mobile: { width: '375px', height: '667px', userAgent: 'Mozilla/5.0 (iPhone; CPU iPhone OS 14_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.0 Mobile/15E148 Safari/604.1' },
@@ -25,7 +30,7 @@ export default function DevicePreview({ children }: DevicePreviewProps) {
   // Clone children with previewDevice prop
   const childrenWithProps = Children.map(children, child => {
     if (isValidElement(child)) {
-      return cloneElement(child, {
+      return cloneElement(child as ReactElement<PreviewProps>, {
         previewDevice: deviceSize,
         isPreview: true
       })
