@@ -1,6 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  output: 'export',
+  output: 'standalone',
   images: {
     unoptimized: true,
   },
@@ -9,13 +9,27 @@ const nextConfig = {
     appDir: true,
   },
   // Configure which pages should be static and which should be dynamic
+  async rewrites() {
+    return {
+      beforeFiles: [
+        // Handle NextAuth API routes
+        {
+          source: '/api/auth/:path*',
+          destination: '/api/auth/:path*',
+        },
+        // Handle other dynamic API routes
+        {
+          source: '/api/:path*',
+          destination: '/api/:path*',
+        },
+      ],
+    }
+  },
+  // Exclude API routes from static generation
   async generateStaticParams() {
     return {
       // Add any dynamic routes that should be pre-rendered
       '/auth/verify': { dynamic: true },
-      '/api/auth/redirect': { dynamic: true },
-      '/api/dashboard/stats': { dynamic: true },
-      '/api/user': { dynamic: true },
     }
   }
 }
