@@ -52,6 +52,7 @@ export async function POST(req: Request) {
     const store = await prisma.store.create({
       data: {
         name: storeName,
+        subdomain: storeName,
         userId: session.user.id,
         language,
         currency,
